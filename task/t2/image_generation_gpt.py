@@ -24,37 +24,22 @@ from task.constants import OPENAI_HOST
 #   ]
 # }
 
-#TODO:
-# You need to create some images with `dall-e-3` model:
-#   - Generate an image with 'Smiling catdog'
-#   - Decode and save it locally
-# ---
-# Hints:
-#   - Use OpenAIClient to connect to OpenAI API
-#   - Use /v1/images/generations endpoint
-#   - The image will be returned in base64 format
 
-def main(model_name: str, request: str, **kwargs):
-    client = OpenAIClient(
-        endpoint=OPENAI_HOST+"/v1/images/generations",
-    )
-
-    response = client.call(
-        model=model_name,
-        prompt=request,
-        **kwargs
-    )
-    image_base64 = response["data"][0]["b64_json"]
-
-    image_bytes = base64.b64decode(image_base64)
-    filename= f"{datetime.now()}.png"
-    with open(filename, "wb") as f:
-        f.write(image_bytes)
-
-    print(f"Image saved as {filename}")
+def main(model_name: str, request: str):
+    #TODO:
+    # 1. Create OpenAIClient with OPENAI_HOST + /v1/images/generations as endpoint
+    # 2. Call client with:
+    #   - model=model_name
+    #   - prompt=request
+    # 3. Get b64_json content from data[0] and assign to `image_base64` variable
+    # 4. Decode it with base64.b64decode and assign to `image_bytes` variable
+    # 5. Create filename as `f"{datetime.now()}.png"` ({current datetime}.png)
+    # 6. open filename (wb) and write `image_bytes`
+    raise NotImplementedError
 
 
 main(
-    model_name="gpt-image-1",
-    request="smiling catdog"
+    #TODO:
+    # - model_name gpt-image-1
+    # - request="Smiling catdog"
 )

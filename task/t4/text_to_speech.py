@@ -20,45 +20,29 @@ from task.constants import OPENAI_HOST, OPENAI_API_KEY
 # Response:
 #   bytes with audio
 
-#TODO:
-# You need to convert text to speech:
-#   - Create Client that will go to speech OpenAI API
-#   - Call API
-#   - Get response and save as .mp3 file
-# ---
-# Hints:
-#   - Use /v1/audio/speech endpoint
-#   - Use gpt-4o-mini-tts model
 
 class OpenAIClient:
 
     def __init__(self):
-        api_key = OPENAI_API_KEY
-        if not api_key:
-            raise ValueError("API key cannot be null or empty")
-
-        self._api_key = "Bearer " + api_key
-        self._endpoint = OPENAI_HOST + "/v1/audio/speech"
+        #TODO:
+        # 1. Set up `_api_key` (use OPENAI_API_KEY env var), don't forget to check that it is present and add 'Bearer ' prefix
+        # 2. Set up `_endpoint` (OPENAI_HOST + "/v1/audio/speech")
+        raise NotImplementedError
 
     def call(self, print_request=True, **kwargs):
-        headers = {
-            "Authorization": self._api_key,
-            "Content-Type": "application/json"
-        }
-
-        output_file: str = f"{datetime.now()}.mp3"
-
-        if print_request:
-            print(json.dumps(kwargs, indent=2))
-
-        response = requests.post(url=self._endpoint, headers=headers, json=kwargs)
-
-        if response.status_code == 200:
-            with open(output_file, 'wb') as f:
-                f.write(response.content)
-            print(f"Audio saved to {output_file}")
-        else:
-         raise Exception(f"HTTP {response.status_code}: {response.text}")
+        #TODO:
+        # 1. Set up `headers` dict, provide Authorization header with self._api_key and Content-Type as application/json
+        # 2. Create output file name `f"{datetime.now()}.mp3"` and assign to `output_file` variable
+        # 3. Print request: print(json.dumps(kwargs, indent=2))
+        # 4. Make POST request (use `requests` lib) with such params:
+        #   - url=self._endpoint
+        #   - headers=headers
+        #   - json=kwargs
+        # 5. If response is 200 then:
+        #   - Save it (open output_file (wb) and write byte `response.content`)
+        #   - print(f"Audio saved to {output_file}")
+        # 5.1. Otherwise, raise Exception(f"HTTP {response.status_code}: {response.text}")
+        raise NotImplementedError
 
 
 class Voice:
@@ -75,11 +59,11 @@ class Voice:
 
 
 client = OpenAIClient()
-
-response = client.call(
-    model="gpt-4o-mini-tts",
-    input="Why can't we say that black is white?",
-    voice=Voice.coral,
-    instructions="Speak in a cheerful and positive tone."
+client.call(
+    #TODO:
+    # - model_name gpt-4o-mini-tts
+    # - input="Why can't we say that black is white?"
+    # instructions="Speak in a cheerful and positive tone."
+    # - voice - play with different types
 )
 

@@ -1,5 +1,4 @@
 import json
-from typing import Any
 
 import requests
 
@@ -7,63 +6,35 @@ from task.constants import OPENAI_HOST, OPENAI_API_KEY
 
 # https://platform.openai.com/docs/guides/speech-to-text?lang=curl
 
-#TODO:
-# You need to transcribe 'codeus_audio.mp3':
-#   - Create Client that will go to transcriptions OpenAI API
-#   - Call API and provide file (pay attention that you work with 'multipart/form-data')
-#   - Get response with transcription
-# ---
-# Hints:
-#   - Use /v1/audio/transcriptions endpoint
-#   - Use whisper-1 or gpt-4o-transcribe
 
 class OpenAIClient:
-    def __init__(self, endpoint: str):
-        api_key = OPENAI_API_KEY
-        if not api_key:
-            raise ValueError("API key cannot be null or empty")
-        self._api_key = "Bearer " + api_key
-        self._endpoint = endpoint
+    def __init__(self):
+        #TODO:
+        # 1. Set up `_api_key` (use OPENAI_API_KEY env var), don't forget to check that it is present and add 'Bearer ' prefix
+        # 2. Set up `_endpoint` (OPENAI_HOST + "/v1/audio/transcriptions")
+        raise NotImplementedError
 
-    def call(self, audio_file_path: str,  print_response=True, **kwargs) -> dict[str, Any]:
-        headers = {
-            "Authorization": self._api_key,
-        }
-
-        files = {'file': open(audio_file_path, 'rb')}
-
-        response = requests.post(
-            url=self._endpoint,
-            headers=headers,
-            files=files,
-            data=kwargs
-        )
-
-        files['file'].close()
-
-        if response.status_code == 200:
-            data = response.json()
-            if print_response:
-                print(json.dumps(data, indent=2))
-            return data
-
-        raise Exception(f"HTTP {response.status_code}: {response.text}")
+    def call(self, audio_file_path: str,  print_response=True, **kwargs):
+        #TODO:
+        # 1. Set up `headers` dict, provide Authorization header with self._api_key
+        # 2. Create dict `{'file': open(audio_file_path, 'rb')}` and assign to `files` variable
+        # 3. Make POST request (use `requests` lib) with such params:
+        #   - url=self._endpoint
+        #   - headers=headers
+        #   - files=files
+        #   -  data=kwargs
+        # 4. Close files read `files['file'].close()`
+        # 5. If response is 200 then:
+        #   - get json from response
+        #   - print(json.dumps(data, indent=2))
+        # 5.1. Otherwise, raise Exception(f"HTTP {response.status_code}: {response.text}")
+        raise NotImplementedError
 
 
-def main(model_name: str, audio_file_path: str):
-    client = OpenAIClient(
-        endpoint=OPENAI_HOST + "/v1/audio/transcriptions",
-    )
-
-    response = client.call(
-        model=model_name,
-        audio_file_path=audio_file_path,
-    )
-
-    return response
-
-
-result = main(
-    model_name="gpt-4o-transcribe",  # Use whisper-1 or gpt-4o-transcribe
-    audio_file_path="codeus_audio.mp3"
+client = OpenAIClient()
+client.call(
+    #TODO:
+    # - model_name gpt-4o-transcribe or whisper-1
+    # - audio_file_path="codeus_audio.mp3"
+    # - Optional, try to do that with audio on different languages
 )
