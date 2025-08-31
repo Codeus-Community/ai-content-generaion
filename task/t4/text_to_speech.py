@@ -34,7 +34,7 @@ class OpenAIClient:
                 f.write(response.content)
             print(f"Audio saved to {output_file}")
         else:
-         raise Exception(f"HTTP {response.status_code}: {response.text}")
+            raise Exception(f"HTTP {response.status_code}: {response.text}")
 
 
 class Voice:
@@ -51,8 +51,7 @@ class Voice:
 
 
 client = OpenAIClient()
-
-response = client.call(
+client.call(
     model="gpt-4o-mini-tts",
     input="Why can't we say that black is white?",
     voice=Voice.coral,

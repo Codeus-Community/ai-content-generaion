@@ -22,7 +22,7 @@ def main(model_name: str, img_urls: list[str], request: str = "What's in this im
         for img_url in img_urls
     ]
 
-    response = client.call(
+    client.call(
         model=model_name,
         messages=[{
             "role": "user",

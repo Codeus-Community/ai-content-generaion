@@ -1,11 +1,9 @@
 import json
-from typing import Any
 
 import requests
 
 from task.constants import OPENAI_HOST, OPENAI_API_KEY
 
-# https://platform.openai.com/docs/guides/speech-to-text?lang=curl
 
 class OpenAIClient:
     def __init__(self, endpoint: str):
@@ -15,7 +13,7 @@ class OpenAIClient:
         self._api_key = "Bearer " + api_key
         self._endpoint = endpoint
 
-    def call(self, audio_file_path: str,  print_response=True, **kwargs) -> dict[str, Any]:
+    def call(self, audio_file_path: str,  print_response=True, **kwargs):
         headers = {
             "Authorization": self._api_key,
         }
@@ -35,25 +33,12 @@ class OpenAIClient:
             data = response.json()
             if print_response:
                 print(json.dumps(data, indent=2))
-            return data
-
-        raise Exception(f"HTTP {response.status_code}: {response.text}")
-
-
-def main(model_name: str, audio_file_path: str):
-    client = OpenAIClient(
-        endpoint=OPENAI_HOST + "/v1/audio/transcriptions",
-    )
-
-    response = client.call(
-        model=model_name,
-        audio_file_path=audio_file_path,
-    )
-
-    return response
+        else:
+            raise Exception(f"HTTP {response.status_code}: {response.text}")
 
 
-result = main(
+client = OpenAIClient(OPENAI_HOST + "/v1/audio/transcriptions",)
+client.call(
     model_name="gpt-4o-transcribe",  # Use whisper-1 or gpt-4o-transcribe
     audio_file_path="codeus_audio.mp3"
 )
